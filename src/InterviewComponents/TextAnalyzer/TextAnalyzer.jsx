@@ -8,6 +8,7 @@ const TextAnalyzer = () => {
   const [wordCount, setWordCount] = useState(0);
   const [searchWord, setSearchWord] = useState('');
   const [searchCollection, setSearchCollection] = useState([]);
+  const [highlightables, setHighlightables] = useState([]);
 
   // basic style objects
   const searchWordStyle = {
@@ -15,6 +16,23 @@ const TextAnalyzer = () => {
     border: '1px solid white',
     borderRadius: '10px',
     padding: '10px',
+    cursor: 'pointer',
+  };
+
+  // when clicking on the search list words it should highlight the words in the text
+  const highlightFeature = (highlightWord) => {
+    const localHighlightables = [...highlightables].map((item) => {
+      const { word } = item;
+      if (word.toLowerCase() === highlightWord.toLowerCase()) {
+        return {
+          ...item,
+          color: 'red',
+        };
+      } else {
+        return item;
+      }
+    });
+    setHighlightables(localHighlightables);
   };
 
   // ending punctuation filter
@@ -28,17 +46,33 @@ const TextAnalyzer = () => {
   };
   // getting the list of words that are searched based on the starting letter
   useEffect(() => {
-    let localCollection = [];
+    let localCollection = new Set();
     if (searchWord !== '') {
       const words = [...wordList].map((word) => checkForPunctuation(word));
       for (let word of words) {
-        if (word.startsWith(searchWord)) {
-          localCollection.push(word);
+        if (word.toLowerCase().startsWith(searchWord.toLowerCase())) {
+          localCollection.add(word);
         }
       }
     }
-    setSearchCollection(localCollection);
-  }, [searchWord]);
+    setSearchCollection([...localCollection]);
+  }, [searchWord, input]);
+
+  // highlight useeffect
+  useEffect(() => {
+    const words = input.trim().split(' ');
+    const highlightObjects = words.reduce((acc, current) => {
+      return [
+        ...acc,
+        {
+          key: Math.floor(Math.random() * 1000000),
+          word: current,
+          color: 'white',
+        },
+      ];
+    }, []);
+    setHighlightables(highlightObjects);
+  }, [input]);
 
   //check for single char count ignoring spaces
   useEffect(() => {
@@ -67,13 +101,17 @@ const TextAnalyzer = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <h1>Text Analyzer</h1>
-      <input
-        type="text"
-        placeholder="Enter Search Term"
-        value={searchWord}
-        style={{ marginBottom: '16px' }}
-        onChange={(e) => setSearchWord(e.target.value)}
-      ></input>
+      <div>
+        <h4>Enter a Search Term:</h4>
+        <input
+          type="text"
+          placeholder="Enter Search Term"
+          value={searchWord}
+          style={{ marginBottom: '16px' }}
+          onChange={(e) => setSearchWord(e.target.value)}
+        ></input>
+      </div>
+
       <div
         style={{
           marginTop: '8px',
@@ -84,7 +122,11 @@ const TextAnalyzer = () => {
       >
         {searchCollection.map((word, index) => {
           return (
-            <div key={index} style={searchWordStyle}>
+            <div
+              key={index}
+              style={searchWordStyle}
+              onClick={() => highlightFeature(word)}
+            >
               {word}
             </div>
           );
@@ -94,8 +136,23 @@ const TextAnalyzer = () => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="enter something"
-        style={{ height: '100px', border: 'none', listStyle: 'none' }}
+        style={{ height: '30px', border: 'none', listStyle: 'none' }}
       ></textarea>
+
+      <div style={{ margin: '0.5em' }}>
+        <h3>
+          {highlightables.map((item, index) => {
+            const { word, key, color } = item;
+            console.log(word);
+            return (
+              <span key={key} style={{ color: color, marginRight: '10px' }}>
+                {word}
+              </span>
+            );
+          })}
+        </h3>
+      </div>
+
       <div
         style={{
           display: 'flex',
