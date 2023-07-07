@@ -1,10 +1,10 @@
-import PasswordGenerator from './InterviewComponents/PasswordGenerator/PasswordGenerator';
 import './App.css';
+import TextAnalyzer from './InterviewComponents/TextAnalyzer/TextAnalyzer';
 
 function App() {
   return (
     <>
-      <PasswordGenerator />
+      <TextAnalyzer />
     </>
   );
 }
