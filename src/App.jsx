@@ -1,10 +1,10 @@
 import './App.css';
-import TextAnalyzer from './InterviewComponents/TextAnalyzer/TextAnalyzer';
+import Stepper from './InterviewComponents/Stepper/Stepper';
 
 function App() {
   return (
     <>
-      <TextAnalyzer />
+      <Stepper />
     </>
   );
 }

@@ -1,0 +1,70 @@
+.stepper-container {
+  height: 60vh;
+  width: 60vw;
+  background-color: rgb(212, 203, 203);
+  display: flex;
+  flex-direction: column;
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+}
+
+.stepper-container h2 {
+  letter-spacing: 3px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+  color: rgb(44, 43, 42);
+}
+
+.stepper-content {
+  display: flex;
+  height: 100%;
+}
+
+.stepper {
+  width: 250px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content-para {
+  margin: 1em;
+}
+
+.step {
+  display: flex;
+  width: 150px;
+  justify-content: space-between;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  border-bottom: 1px solid purple;
+  margin: 1em;
+  padding: 10px;
+}
+
+.step.highlight {
+  background-color: purple;
+  color: white;
+}
+
+.step-buttons {
+  display: flex;
+  gap: 1em;
+  padding: 1em;
+}
+
+.step-buttons button {
+  padding: 1em;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
